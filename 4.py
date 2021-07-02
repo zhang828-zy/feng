@@ -3,8 +3,8 @@ import numpy as np
 from thinkdsp import Chirp
 from thinkdsp import normalize, unbias
 from thinkdsp import decorate
+from thinkdsp import read_wave
 PI2 = 2 * np.pi
-
 class SawtoothChirp(Chirp):
    
 
@@ -17,12 +17,10 @@ class SawtoothChirp(Chirp):
         frac, _ = np.modf(cycles)
         ys =  normalize(unbias(frac), self.amp)
         return ys
-
-signal = SawtoothChirp(start=220, end=880)
-wave = signal.make_wave(duration=1, framerate=4000)
-wave.apodize()
+signal = SawtoothChirp(start=2500, end=3000)
+wave =read_wave('1.wav')
 wave.make_audio()
 sp = wave.make_spectrogram(256)
-sp.plot()
+wave.make_spectrogram(512).plot(high=5000)
 decorate(xlabel='Time (s)', ylabel='Frequency (Hz)')
 plt.show()
